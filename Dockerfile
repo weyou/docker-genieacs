@@ -1,14 +1,11 @@
 FROM node
-MAINTAINER Sergio Tejón <sergio.tejon@gmail.com>
-
-WORKDIR /usr/src
-
-RUN git clone https://github.com/zaidka/genieacs.git
-RUN ln -s /usr/src/genieacs /app
+MAINTAINER Kelvin You <weyou.dev@gmail.com>
 
 WORKDIR /app
 
-RUN npm install && npm run configure && npm run compile && \
+RUN git clone https://github.com/genieacs/genieacs.git /app && \
+    git checkout $(git tag -l v1.1.* --sort=-v:refname | head -n 1) && \
+    npm install && npm run configure && npm run compile && \
 	curl https://bootstrap.pypa.io/ez_setup.py -o - | python && \
 	easy_install supervisor
 
